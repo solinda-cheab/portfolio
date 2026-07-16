@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio with Lightbox</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        html { scroll-behavior: smooth; }
+        .bg-custom-blue { background-color: #00338d; }
+        .text-custom-blue { color: #00338d; }
+        .border-custom-blue { border-color: #00338d; }
+    </style>
+</head>
+<body class="min-h-screen p-8 bg-gray-100">
+
+    <div class="max-w-6xl mx-auto">
+        <h1 class="mb-10 text-5xl font-black text-center">My Excellent Portfolio</h1>
+
+        <div class="flex justify-center gap-4 mb-12">
+            <button data-filter="all" class="px-6 py-2 font-bold text-white border-2 rounded filter-btn border-custom-blue bg-custom-blue">All</button>
+            <button data-filter="artwork" class="px-6 py-2 font-bold transition border-2 rounded filter-btn border-custom-blue text-custom-blue hover:bg-custom-blue hover:text-white">Artwork</button>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            
+            <div class="overflow-hidden bg-white shadow-lg cursor-pointer portfolio-item group rounded-xl" data-category="artwork" onclick="openModal('https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=1200', 'Seasonal Poster')">
+                <div class="relative overflow-hidden h-80">
+                    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600" class="object-cover w-full h-full transition duration-500 group-hover:scale-110">
+                    <div class="absolute flex items-center justify-center w-12 h-12 text-2xl text-white transition-all rounded -bottom-12 right-4 bg-custom-blue group-hover:bottom-4">
+                        +
+                    </div>
+                </div>
+                <div class="p-4 text-lg font-bold border-t">Seasonal Poster</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="lightbox" class="fixed inset-0 z-50 flex flex-col items-center justify-center hidden p-4 bg-black/90 animate__animated animate__fadeIn">
+        <button onclick="closeModal()" class="absolute text-5xl text-white top-6 right-6 hover:text-gray-300">&times;</button>
+        
+        <img id="modal-img" src="" class="max-w-full max-h-[80vh] rounded-lg shadow-2xl animate__animated animate__zoomIn animate__faster">
+        
+        <h3 id="modal-caption" class="mt-6 text-2xl font-bold text-white"></h3>
+    </div>
+
+    <script>
+        // 1. Filtering Logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const items = document.querySelectorAll('.portfolio-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('bg-custom-blue', 'text-white'));
+                btn.classList.add('bg-custom-blue', 'text-white');
+                
+                const filter = btn.dataset.filter;
+                items.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'block';
+                        item.classList.add('animate__animated', 'animate__fadeIn');
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // 2. Modal Logic
+        const lightbox = document.getElementById('lightbox');
+        const modalImg = document.getElementById('modal-img');
+        const modalCaption = document.getElementById('modal-caption');
+
+        function openModal(src, title) {
+            modalImg.src = src;
+            modalCaption.innerText = title;
+            lightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Stop scrolling
+        }
+
+        function closeModal() {
+            lightbox.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Enable scrolling
+        }
+
+        // Close on background click
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeModal();
+        });
+    </script>
+</body>
+</html>
