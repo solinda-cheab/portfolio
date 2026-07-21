@@ -3,6 +3,8 @@ import type { Project } from '../../types'
 import Card from '../../components/common/Card'
 import Badge from '../../components/common/Badge'
 import BrandIcon from '../../components/common/BrandIcon'
+import ProjectPreview from './ProjectPreview'
+import ProjectFeatureGrid from './ProjectFeatureGrid'
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
@@ -40,15 +42,25 @@ export default function ProjectCard({ project }: { project: Project }) {
         {project.description}
       </p>
 
-      {project.features && (
-        <ul className="mt-4 grid grid-cols-2 gap-1.5 sm:grid-cols-3">
-          {project.features.map((feature) => (
-            <li key={feature} className="text-xs text-[var(--color-text-muted)]">
-              <span className="text-[var(--color-accent)]">✓</span> {feature}
-            </li>
-          ))}
-        </ul>
-      )}
+      {project.features &&
+        (project.featured ? (
+          <div className="mt-5 grid gap-3 lg:grid-cols-5">
+            <div className="lg:col-span-3">
+              <ProjectPreview project={project} />
+            </div>
+            <div className="lg:col-span-2">
+              <ProjectFeatureGrid features={project.features} />
+            </div>
+          </div>
+        ) : (
+          <ul className="mt-4 grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+            {project.features.map((feature) => (
+              <li key={feature} className="text-xs text-[var(--color-text-muted)]">
+                <span className="text-[var(--color-accent)]">✓</span> {feature}
+              </li>
+            ))}
+          </ul>
+        ))}
 
       <div className="mt-5 flex flex-wrap gap-2">
         {project.stack.map((tech) => (
