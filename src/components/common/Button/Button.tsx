@@ -5,27 +5,30 @@ interface ButtonProps {
   href?: string
   variant?: 'primary' | 'ghost'
   onClick?: () => void
+  className?: string
 }
 
-export default function Button({ children, href, variant = 'primary', onClick }: ButtonProps) {
+export default function Button({ children, href, variant = 'primary', onClick, className = '' }: ButtonProps) {
   const base =
-    'inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2'
+    'inline-flex shrink-0 items-center justify-center gap-2 rounded-[var(--radius)] border border-transparent bg-clip-padding px-5 py-3 text-sm font-medium whitespace-nowrap transition-all duration-150 outline-none select-none active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/30'
 
   const styles =
     variant === 'primary'
-      ? 'bg-[var(--color-primary)] text-white hover:bg-blue-500'
-      : 'border border-white/15 text-[var(--color-text)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]'
+      ? 'bg-[var(--color-primary)] text-[var(--color-text)] hover:bg-[var(--color-text)] hover:text-[var(--color-bg)]'
+      : 'text-[var(--color-text)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-text)] border border-white/10'
+
+  const allClasses = `${base} ${styles} ${className}`
 
   if (href) {
     return (
-      <a href={href} className={`${base} ${styles}`}>
+      <a href={href} className={allClasses}>
         {children}
       </a>
     )
   }
 
   return (
-    <button onClick={onClick} className={`${base} ${styles}`}>
+    <button onClick={onClick} className={allClasses}>
       {children}
     </button>
   )

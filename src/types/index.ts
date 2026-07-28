@@ -9,6 +9,11 @@ export interface Project {
   githubUrl?: string
   image?: string
   featured?: boolean
+  overview?: string
+  reflection?: string
+  challenges?: string
+  lessons?: string
+  languages?: string[]
 }
 
 export interface SkillGroup {
@@ -32,6 +37,9 @@ export interface Achievement {
 export interface Certificate {
   name: string
   issuer: string
+  image?: string
+  url?: string
+  date?: string
 }
 
 export interface EducationItem {

@@ -6,10 +6,10 @@ export default function ProjectFeatureGrid({ features }: { features: string[] })
       {tiles.map((feature, i) => (
         <div
           key={feature}
-          className={`flex items-center rounded-lg p-4 text-sm leading-tight font-semibold transition-colors duration-200 ${
+          className={`flex items-center rounded-lg p-4 text-sm leading-tight font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-black/5 ${
             i % 3 === 0
-              ? 'bg-[var(--color-bg)] text-[var(--color-text)] hover:bg-black/40'
-              : 'bg-[var(--color-surface-2)] text-[var(--color-text)] hover:bg-[var(--color-surface-2)]/70'
+              ? 'bg-[var(--color-bg)] text-[var(--color-text)] hover:border-white/10 border border-transparent'
+              : 'bg-[var(--color-surface-2)] text-[var(--color-text)] hover:border-white/10 border border-transparent'
           }`}
         >
           {feature}

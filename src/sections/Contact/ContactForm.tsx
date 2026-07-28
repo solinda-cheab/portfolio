@@ -1,30 +1,41 @@
 import { useState } from 'react'
 import Button from '../../components/common/Button'
+import { Send } from 'lucide-react'
 
 export default function ContactForm() {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [sent, setSent] = useState(false)
 
   const handleSubmit = () => {
-    const subject = encodeURIComponent(`Portfolio inquiry from ${form.name || 'a visitor'}`)
+    if (!form.name || !form.email || !form.message) return
+    const subject = encodeURIComponent(`Portfolio inquiry from ${form.name}`)
     const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`)
-    window.location.href = `mailto:hello@example.com?subject=${subject}&body=${body}`
+    window.location.href = `mailto:meym5913@gmail.com?subject=${subject}&body=${body}`
+    setSent(true)
+    setTimeout(() => setSent(false), 3000)
   }
 
   return (
-    <div className="grid gap-4">
+    <form
+      className="grid gap-5"
+      onSubmit={(e) => {
+        e.preventDefault()
+        handleSubmit()
+      }}
+    >
       <div>
-        <label className="mb-1.5 block text-xs font-medium text-[var(--color-text-muted)]">
+        <label className="mb-2 block text-xs font-medium text-[var(--color-text-muted)]">
           Name
         </label>
         <input
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
           placeholder="Your name"
-          className="w-full rounded-lg border border-white/10 bg-[var(--color-surface-2)] px-4 py-2.5 text-sm text-[var(--color-text)] outline-none focus-visible:border-[var(--color-accent)]"
+          className="h-10 w-full rounded-[var(--radius)] border border-transparent bg-[var(--color-surface-2)] px-4 py-2 text-sm text-[var(--color-text)] outline-none transition-all duration-150 focus:border-[var(--color-accent)] focus:ring-[3px] focus:ring-[var(--color-accent)]/20 placeholder:text-[var(--color-text-muted)]/60"
         />
       </div>
       <div>
-        <label className="mb-1.5 block text-xs font-medium text-[var(--color-text-muted)]">
+        <label className="mb-2 block text-xs font-medium text-[var(--color-text-muted)]">
           Email
         </label>
         <input
@@ -32,22 +43,25 @@ export default function ContactForm() {
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
           placeholder="you@example.com"
-          className="w-full rounded-lg border border-white/10 bg-[var(--color-surface-2)] px-4 py-2.5 text-sm text-[var(--color-text)] outline-none focus-visible:border-[var(--color-accent)]"
+          className="h-10 w-full rounded-[var(--radius)] border border-transparent bg-[var(--color-surface-2)] px-4 py-2 text-sm text-[var(--color-text)] outline-none transition-all duration-150 focus:border-[var(--color-accent)] focus:ring-[3px] focus:ring-[var(--color-accent)]/20 placeholder:text-[var(--color-text-muted)]/60"
         />
       </div>
       <div>
-        <label className="mb-1.5 block text-xs font-medium text-[var(--color-text-muted)]">
+        <label className="mb-2 block text-xs font-medium text-[var(--color-text-muted)]">
           Message
         </label>
         <textarea
           value={form.message}
           onChange={(e) => setForm({ ...form, message: e.target.value })}
           placeholder="Tell me about your project..."
-          rows={4}
-          className="w-full resize-none rounded-lg border border-white/10 bg-[var(--color-surface-2)] px-4 py-2.5 text-sm text-[var(--color-text)] outline-none focus-visible:border-[var(--color-accent)]"
+          rows={5}
+          className="w-full rounded-[var(--radius)] border border-transparent bg-[var(--color-surface-2)] px-4 py-3 text-sm text-[var(--color-text)] outline-none transition-all duration-150 focus:border-[var(--color-accent)] focus:ring-[3px] focus:ring-[var(--color-accent)]/20 placeholder:text-[var(--color-text-muted)]/60"
         />
       </div>
-      <Button onClick={handleSubmit}>Send Message</Button>
-    </div>
+      <Button onClick={handleSubmit} className="w-full sm:w-auto">
+        <Send size={16} />
+        {sent ? 'Opening Mail...' : 'Send Message'}
+      </Button>
+    </form>
   )
 }

@@ -2,7 +2,7 @@ import type { Project } from '../../types'
 
 export default function ProjectPreview({ project }: { project: Project }) {
   return (
-    <div className="flex h-full flex-col justify-between rounded-lg bg-[var(--color-bg)] p-5 ring-1 ring-white/5">
+    <div className="flex h-full flex-col justify-between rounded-lg bg-[var(--color-bg)] p-5 ring-1 ring-white/5 transition-all duration-300 hover:ring-white/10">
       <div className="flex items-center gap-2 border-b border-white/10 pb-3">
         <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-primary)]" />
         <span className="font-mono text-xs font-semibold text-[var(--color-text)]">

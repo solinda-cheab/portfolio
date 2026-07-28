@@ -1,11 +1,21 @@
 import type { ReactNode } from 'react'
 
-export default function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
+interface CardProps {
+  children: ReactNode
+  className?: string
+  onClick?: () => void
+}
+
+export default function Card({ children, className = '', onClick }: CardProps) {
+  const Component = onClick ? 'button' : 'div'
+
   return (
-    <div
-      className={`rounded-xl border border-white/10 bg-[var(--color-surface)] p-6 transition-colors duration-200 hover:border-[var(--color-primary)]/50 ${className}`}
+    <Component
+      className={`rounded-[var(--radius)] border border-white/10 bg-[var(--color-surface)] shadow-sm ring-1 ring-foreground/5 transition-all duration-300 hover:shadow-md hover:border-white/20 dark:ring-foreground/10 ${className}`}
+      onClick={onClick}
+      type={onClick ? 'button' : undefined}
     >
       {children}
-    </div>
+    </Component>
   )
 }
